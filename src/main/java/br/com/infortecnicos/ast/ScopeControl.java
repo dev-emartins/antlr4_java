@@ -1,4 +1,4 @@
-package br.com.infortecnicos.compiler;
+package br.com.infortecnicos.ast;
 
 import java.util.LinkedList;
 import java.util.Optional;

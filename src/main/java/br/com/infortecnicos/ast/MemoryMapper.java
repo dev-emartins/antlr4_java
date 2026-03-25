@@ -1,4 +1,4 @@
-package br.com.infortecnicos.compiler;
+package br.com.infortecnicos.ast;
 
 public class MemoryMapper {
     

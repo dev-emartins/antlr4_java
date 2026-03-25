@@ -1,7 +1,9 @@
-package br.com.infortecnicos.compiler;
+package br.com.infortecnicos.visitor;
 
 import br.com.infortecnicos.LanguageBaseVisitor;
 import br.com.infortecnicos.LanguageParser.*;
+import br.com.infortecnicos.ast.MemoryMapper;
+import br.com.infortecnicos.ast.ScopeControl;
 
 public class LanguageVisitor extends LanguageBaseVisitor<Void> {
 
@@ -21,14 +23,12 @@ public class LanguageVisitor extends LanguageBaseVisitor<Void> {
     // PROGRAMA
     @Override
     public Void visitProg(ProgContext ctx) {
-        scopes.createScope(); // escopo global
+        scopes.createScope();
 
         try {
             for (StatContext stat : ctx.stat()) {
                 visit(stat);
             }
-
-            code.append("out\n");
             code.append("hlt\n");
 
         } finally {
@@ -50,13 +50,10 @@ public class LanguageVisitor extends LanguageBaseVisitor<Void> {
     // DECLARAÇÃO DE VARIÁVEL
     @Override
     public Void visitVarDecl(VarDeclContext ctx) {
-        String varName = ctx.IDENT().getText();
-        var tk = ctx.IDENT().getSymbol();
-
-        if (scopes.getCurrentScope().exists(varName)) {
+        if (scopes.getCurrentScope().exists(ctx.IDENT().getText())) {
             throw new RuntimeException(
                     "Variável '%s' já declarada na linha %d."
-                            .formatted(varName, tk.getLine())
+                            .formatted(ctx.IDENT().getText(), ctx.IDENT().getSymbol().getLine())
             );
         }
 
@@ -70,7 +67,7 @@ public class LanguageVisitor extends LanguageBaseVisitor<Void> {
             code.append("push 0\n");
         }
 
-        scopes.getCurrentScope().insert(varName, address);
+        scopes.getCurrentScope().insert(ctx.IDENT().getText(), address);
 
         code.append("sto\n");
 
@@ -80,12 +77,9 @@ public class LanguageVisitor extends LanguageBaseVisitor<Void> {
     // ATRIBUIÇÃO
     @Override
     public Void visitAssign(AssignContext ctx) {
-        String varName = ctx.IDENT().getText();
-        var tk = ctx.IDENT().getSymbol();
-
-        var declOpt = scopes.lookup(varName);
+        var declOpt = scopes.lookup(ctx.IDENT().getText());
         if (declOpt.isEmpty()) {
-            throw new RuntimeException("Variável '%s' não declarada na linha %d.".formatted(varName, tk.getLine()));
+            throw new RuntimeException("Variável '%s' não declarada na linha %d.".formatted(ctx.IDENT().getText(), ctx.IDENT().getSymbol().getLine()));
         }
 
         int address = declOpt.get().address();
@@ -113,17 +107,14 @@ public class LanguageVisitor extends LanguageBaseVisitor<Void> {
     // INPUT
     @Override
     public Void visitInputStat(InputStatContext ctx) {
-        String varName = ctx.IDENT().getText();
-        var tk = ctx.IDENT().getSymbol();
-
-        var declOpt = scopes.lookup(varName);
+        var declOpt = scopes.lookup(ctx.IDENT().getText());
         if (declOpt.isEmpty()) {
-            throw new RuntimeException("Variável '%s' não declarada na linha %d.".formatted(varName, tk.getLine()));
+            throw new RuntimeException("Variável '%s' não declarada na linha %d.".formatted(ctx.IDENT().getText(), ctx.IDENT().getSymbol().getLine()));
         }
 
         int address = declOpt.get().address();
-        code.append("in\n");
         code.append("push $").append(address).append("\n");
+        code.append("in\n");
         code.append("sto\n");
         return null;
     }

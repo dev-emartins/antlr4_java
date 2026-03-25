@@ -2,62 +2,61 @@ push $0
 push 0
 sto
 push $1
-push 1
+push 0
 sto
 push $2
-push 0
+push 1
 sto
 push $3
 push 0
 sto
-push "Digite o limite:"
+push "Digite o limite: "
 out
+push $0
 in
-push $3
 sto
 push "Sequência de Fibonacci:"
 out
-push $0
+push $1
 lod
 out
-push $1
+push $2
 lod
 out
 L0:
-push $3
-lod
 push $0
 lod
 push $1
+lod
+push $2
 lod
 add
 lte
 fjp L1
-push $2
-push $0
-lod
+push $3
 push $1
+lod
+push $2
 lod
 add
 sto
-push $2
+push $3
 lod
-push $2
+push $3
 lod
 out
-push $0
-push $1
-lod
-sto
-push $0
-lod
 push $1
 push $2
 lod
 sto
 push $1
+lod
+push $2
+push $3
+lod
+sto
+push $2
 lod
 ujp L0
 L1:
-out
 hlt
