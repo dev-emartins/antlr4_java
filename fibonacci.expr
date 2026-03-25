@@ -10,11 +10,17 @@ input(i);
 print("Sequência de Fibonacci:");
 
 print(a);
+print(" ");
 print(b);
+print(" ");
 
 while (a + b <= i) {
     temp = a + b;
     print(temp);
+    print(" ");
+
     a = b;
     b = temp;
 }
+
+print("\n\n");

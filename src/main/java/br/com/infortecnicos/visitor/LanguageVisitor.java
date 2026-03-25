@@ -285,8 +285,8 @@ public class LanguageVisitor extends LanguageBaseVisitor<Void> {
     // COMPARAÇÃO
     @Override
     public Void visitComparison(ComparisonContext ctx) {
-        visit(ctx.expr(1));   // RIGHT
-        visit(ctx.expr(0));   // LEFT
+        visit(ctx.expr(0));
+        visit(ctx.expr(1));
 
         String op = ctx.RELATIONAL().getText();
         switch (op) {
