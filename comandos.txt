@@ -4,4 +4,4 @@
 
 .\mvnw clean package
 
-java -jar target/compiler.jar -i exemple.expr -o exemple.pcode
+java -jar target/compiler.jar -i fibonacci.expr -o fibonacci.pcode

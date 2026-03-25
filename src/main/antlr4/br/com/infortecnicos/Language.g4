@@ -1,6 +1,6 @@
 grammar Language;
 
-prog: stat* EOF;
+prog: (stat)* EOF;
 
 // STATEMENTS
 stat
@@ -17,7 +17,7 @@ stat
 varDecl: VAR IDENT ('=' expr)? ';' ;
 
 // ATRIBUIÇÃO
-assign: IDENT '=' expr (';')? ;
+assign: IDENT '=' expr ';'? ;
 
 // CONTROLE
 ifStat: IF '(' cond ')' block (ELSE block)? ;
@@ -32,7 +32,7 @@ printStat: PRINT '(' (STRING | expr) ')' ';' ;
 inputStat: INPUT '(' IDENT ')' ';' ;
 
 // BLOCO
-block: '{' (stat)* '}' ;
+block: '{' stat* '}' ;
 
 // EXPRESSÕES
 expr

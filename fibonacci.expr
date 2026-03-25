@@ -1,19 +1,26 @@
 // Calcula Fibonacci até um limite
+var i;
 var a = 0;
 var b = 1;
 var temp;
-var i;
 
-print("Digite o limite:");
+print("Digite o limite: ");
 input(i);
 
 print("Sequência de Fibonacci:");
+
 print(a);
+print(" ");
 print(b);
+print(" ");
 
 while (a + b <= i) {
     temp = a + b;
     print(temp);
+    print(" ");
+
     a = b;
     b = temp;
 }
+
+print("\n\n");
