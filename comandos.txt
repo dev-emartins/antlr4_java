@@ -1,0 +1,7 @@
+.\mvnw clean install
+
+.\mvnw clean compile
+
+.\mvnw clean package
+
+java -jar target/compiler.jar -i exemple.expr -o exemple.pcode
