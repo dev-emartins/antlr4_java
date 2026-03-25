@@ -13,3 +13,23 @@ Projeto da disciplina de Compiladores que implementa uma linguagem de programaç
 - ANTLR4
 - Maven
 - P-Code Machine
+
+## Comandos Úteis
+
+``` shell
+# Compilar no Windows
+.\mvnw clean install
+
+# Compilar no Linux/Mac
+./mvnw clean install
+
+# Parse exemplo
+java -jar target/compiler-1.1.0-jar-with-dependencies.jar -i fibonacci.expr -o fibonacci.pcode
+
+# Executar na pcode com verbose por padrão
+java -jar pcode.jar -i=fibonacci.pcode
+
+# Executar na pcode sem verbose
+java -jar pcode.jar -i=fibonacci.pcode -d=false
+
+```

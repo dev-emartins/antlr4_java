@@ -1,7 +1,14 @@
+# Compilar Windows
 .\mvnw clean install
 
-.\mvnw clean compile
+# Compilar Linux/Mac
+./mvnw clean install
 
-.\mvnw clean package
+# Parse
+java -jar target/compiler-1.1.0-jar-with-dependencies.jar -i fibonacci.expr -o fibonacci.pcode
 
-java -jar target/compiler.jar -i fibonacci.expr -o fibonacci.pcode
+# Executar na pcode com verbose
+java -jar pcode.jar -i=fibonacci.pcode
+
+# Executar na pcode sem verbose
+java -jar pcode.jar -i=fibonacci.pcode -d=false

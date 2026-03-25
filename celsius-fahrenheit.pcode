@@ -1,0 +1,91 @@
+push $0
+push 0
+sto
+push $1
+push 0
+sto
+push $2
+push 0
+sto
+push "Conversor de temperatura"
+out
+push "\n"
+out
+push "1 - Celsius para Fahrenheit"
+out
+push "\n"
+out
+push "2 - Fahrenheit para Celsius"
+out
+push "\n"
+out
+push ": "
+out
+push $2
+in
+sto
+push $2
+lod
+push 1
+equ
+fjp L0
+push "Digite a temperatura em Celsius: "
+out
+push $0
+in
+sto
+push "\n"
+out
+push $1
+push $0
+lod
+push 9
+mul
+push 5
+div
+push 32
+add
+sto
+push $1
+lod
+push "Temperatura em Fahrenheit: "
+out
+push $1
+lod
+out
+L0:
+L1:
+push $2
+lod
+push 2
+equ
+fjp L2
+push "Digite a temperatura em Fahrenheit: "
+out
+push $1
+in
+sto
+push "\n"
+out
+push $0
+push $1
+lod
+push 32
+sub
+push 5
+mul
+push 9
+div
+sto
+push $0
+lod
+push "Temperatura em Celsius: "
+out
+push $0
+lod
+out
+L2:
+L3:
+push "\n\n"
+out
+hlt

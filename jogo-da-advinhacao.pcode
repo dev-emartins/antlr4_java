@@ -1,0 +1,83 @@
+push $0
+push 42
+sto
+push $1
+push 0
+sto
+push $2
+push 0
+sto
+push "Tente adivinhar o número secreto (entre 1 e 100)"
+out
+push "\n"
+out
+push "Palpite: "
+out
+push $1
+in
+sto
+push $2
+push $2
+lod
+push 1
+add
+sto
+push $2
+lod
+L0:
+push $1
+lod
+push $0
+lod
+neq
+fjp L1
+push $1
+lod
+push $0
+lod
+let
+fjp L2
+push "Muito baixo! Tente novamente!"
+out
+ujp L3
+L2:
+push "Muito alto! Tente novamente!"
+out
+L3:
+push "\n"
+out
+push "Palpite: "
+out
+push $1
+in
+sto
+push $2
+push $2
+lod
+push 1
+add
+sto
+push $2
+lod
+ujp L0
+L1:
+push "Parabéns! Você acertou em "
+out
+push $2
+lod
+out
+push $2
+lod
+push 1
+grt
+fjp L4
+push " tentativas!"
+out
+ujp L5
+L4:
+push " tentativa!"
+out
+L5:
+push " \n\n"
+out
+hlt

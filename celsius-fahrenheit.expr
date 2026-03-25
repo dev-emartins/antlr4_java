@@ -1,0 +1,33 @@
+// Conversor Celsius-Fahrenheit / Fahrenheit-Celsius
+var celsius;
+var fahrenheit;
+var opcao;
+
+print("Conversor de temperatura");
+print("\n");
+print("1 - Celsius para Fahrenheit");
+print("\n");
+print("2 - Fahrenheit para Celsius");
+print("\n");
+print(": ");
+input(opcao);
+
+if (opcao == 1) {
+    print("Digite a temperatura em Celsius: ");
+    input(celsius);
+    print("\n");
+    fahrenheit = celsius * 9 / 5 + 32;
+    print("Temperatura em Fahrenheit: ");
+    print(fahrenheit);   
+}
+
+if (opcao == 2) {
+    print("Digite a temperatura em Fahrenheit: ");
+    input(fahrenheit);
+    print("\n");
+    celsius = (fahrenheit - 32) * 5 / 9;
+    print("Temperatura em Celsius: ");
+    print(celsius);
+}
+
+print("\n\n");
