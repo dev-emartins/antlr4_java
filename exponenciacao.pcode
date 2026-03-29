@@ -1,0 +1,75 @@
+push $0
+push $1
+push 4
+sto
+push $2
+push $4
+push 5
+sto
+push $5
+push 2
+sto
+push $6
+push 1
+sto
+L2:
+push $5
+lod
+push 0
+grt
+fjp L3
+push $6
+lod
+push $4
+lod
+mul
+push $6
+swap
+sto
+push $5
+dup
+lod
+push 1
+sub
+sto
+ujp L2
+L3:
+push $6
+lod
+sto
+push $3
+push 1
+sto
+L0:
+push $2
+lod
+push 0
+grt
+fjp L1
+push $3
+lod
+push $1
+lod
+mul
+push $3
+swap
+sto
+push $2
+dup
+lod
+push 1
+sub
+sto
+ujp L0
+L1:
+push $3
+lod
+sto
+push "Valor da exponenciação: "
+out
+push $0
+lod
+out
+push "\n"
+out
+hlt

@@ -9,7 +9,7 @@ public class LanguageVisitor extends LanguageBaseVisitor<Void> {
 
     private final ScopeControl scopes = new ScopeControl();
     private final MemoryMapper mapper = new MemoryMapper();
-    private final StringBuilder code = new StringBuilder();
+    private StringBuilder code = new StringBuilder();
     private int labelCounter = 0;
 
     private String createLabel() {
@@ -18,6 +18,17 @@ public class LanguageVisitor extends LanguageBaseVisitor<Void> {
 
     public String getCode() {
         return code.toString();
+    }
+
+    private String generateExpr(ExprContext ctx) {
+        StringBuilder old = code;
+        StringBuilder temp = new StringBuilder();
+
+        code = temp;
+        visit(ctx);
+        code = old;
+
+        return temp.toString();
     }
 
     // PROGRAMA
@@ -193,9 +204,59 @@ public class LanguageVisitor extends LanguageBaseVisitor<Void> {
     // EXPRESSÕES
     @Override
     public Void visitExp(ExpContext ctx) {
-        visit(ctx.expr(0));
-        visit(ctx.expr(1));
-        code.append("pow\n");
+        String loopStart = createLabel();
+        String loopEnd = createLabel();
+
+        int baseAddr = mapper.alloc();
+        int expAddr = mapper.alloc();
+        int resultAddr = mapper.alloc();
+
+        code.append("push $").append(baseAddr).append("\n");
+        code.append(generateExpr(ctx.expr(0)));
+        code.append("sto\n");
+
+        code.append("push $").append(expAddr).append("\n");
+        code.append(generateExpr(ctx.expr(1)));
+        code.append("sto\n");
+
+        code.append("push $").append(resultAddr).append("\n");
+        code.append("push 1\n");
+        code.append("sto\n");
+
+        code.append(loopStart).append(":\n");
+
+        code.append("push $").append(expAddr).append("\n");
+        code.append("lod\n");
+        code.append("push 0\n");
+        code.append("grt\n");
+        code.append("fjp ").append(loopEnd).append("\n");
+
+        code.append("push $").append(resultAddr).append("\n");
+        code.append("lod\n");
+
+        code.append("push $").append(baseAddr).append("\n");
+        code.append("lod\n");
+
+        code.append("mul\n");
+
+        code.append("push $").append(resultAddr).append("\n");
+        code.append("swap\n");
+        code.append("sto\n");
+
+        code.append("push $").append(expAddr).append("\n");
+        code.append("dup\n");
+        code.append("lod\n");
+        code.append("push 1\n");
+        code.append("sub\n");
+        code.append("sto\n");
+
+        code.append("ujp ").append(loopStart).append("\n");
+
+        code.append(loopEnd).append(":\n");
+
+        code.append("push $").append(resultAddr).append("\n");
+        code.append("lod\n");
+
         return null;
     }
 

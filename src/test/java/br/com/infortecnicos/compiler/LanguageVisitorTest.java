@@ -79,6 +79,52 @@ public class LanguageVisitorTest {
     }
 
     @Test
+    @DisplayName("Deve gerar loop para exponenciação simples")
+    void deveGerarExponenciacaoSimples() {
+        String source = """
+        var x = 10^2;
+        print(x);
+        """;
+
+        String code = compile(source);
+
+        assertNotNull(code);
+
+        assertTrue(code.contains("mul"));
+        assertTrue(code.contains("fjp"));
+        assertTrue(code.contains("ujp"));
+
+        assertTrue(code.contains("push $"));
+        assertTrue(code.contains("sto"));
+        assertTrue(code.contains("lod"));
+
+        assertTrue(code.contains("out"));
+        assertTrue(code.contains("hlt"));
+    }
+
+    @Test
+    @DisplayName("Deve gerar duas exponenciações (associatividade à direita)")
+    void deveGerarExponenciacaoEncadeada() {
+        String source = """
+        var x = 2^5^3;
+        print(x);
+        """;
+
+        String code = compile(source);
+
+        assertNotNull(code);
+
+        int countMul = code.split("mul").length - 1;
+        assertTrue(countMul >= 2);
+
+        int countFjp = code.split("fjp").length - 1;
+        assertTrue(countFjp >= 2);
+
+        int countUjp = code.split("ujp").length - 1;
+        assertTrue(countUjp >= 2);
+    }
+
+    @Test
     @DisplayName("Deve gerar código para print de expressão")
     void deveGerarCodigoParaPrint() {
         String source = """
